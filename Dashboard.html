@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — VestSmart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- MOBILE MENU TOGGLE -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-logo">Vest<span>Smart</span></a>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sidebarAvatar">--</div>
+      <div>
+        <div class="sidebar-user-name" id="sidebarName">Loading...</div>
+        <div class="sidebar-user-role" id="sidebarRole">Student</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Overview</div>
+      <a href="dashboard.html" class="nav-item active">
+        <span class="nav-item-icon">📊</span> Dashboard
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span class="nav-item-icon">👤</span> My Profile
+      </a>
+      <div class="nav-section-title">Investing</div>
+      <a href="recommendations.html" class="nav-item">
+        <span class="nav-item-icon">📈</span> Recommendations
+      </a>
+      <a href="calculators.html" class="nav-item">
+        <span class="nav-item-icon">🧮</span> Calculators
+      </a>
+      <div class="nav-section-title">Community</div>
+      <a href="reviews.html" class="nav-item">
+        <span class="nav-item-icon">⭐</span> Reviews
+      </a>
+      <a href="../index.html#contact" class="nav-item">
+        <span class="nav-item-icon">📧</span> Contact
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-item" id="logoutBtn" style="width:100%; cursor:pointer; background:none; border:none; font-family:inherit;">
+        <span class="nav-item-icon">🚪</span> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Dashboard</h1>
+        <p id="topbarDate"></p>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn" id="themeToggleBtn" title="Toggle theme">🌙</button>
+        <button class="topbar-btn" onclick="exportPDF()" title="Export PDF">📄</button>
+        <button class="topbar-btn" title="Notifications">🔔</button>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content" id="pageContent">
+
+      <!-- Loading state -->
+      <div id="loadingState" style="text-align:center; padding:80px 0;">
+        <div class="spinner" style="width:40px; height:40px; margin:0 auto 16px; border-width:3px;"></div>
+        <p style="color:var(--text-2)">Loading your dashboard...</p>
+      </div>
+
+      <!-- Dashboard content (hidden until data loads) -->
+      <div id="dashboardContent" style="display:none;">
+
+        <!-- STAT CARDS -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-label">Monthly Income</div>
+            <div class="stat-value" id="statIncome">₹0</div>
+            <div class="stat-change up" id="statIncomeChange">All sources</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💸</div>
+            <div class="stat-label">Monthly Expenses</div>
+            <div class="stat-value" id="statExpenses">₹0</div>
+            <div class="stat-change" id="statExpensesChange">Total spent</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏦</div>
+            <div class="stat-label">Savings</div>
+            <div class="stat-value" id="statSavings">₹0</div>
+            <div class="stat-change up" id="statSavingsRate">0% rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-label">Risk Profile</div>
+            <div class="stat-value" id="statRisk">—</div>
+            <div class="stat-change" id="statGoal">Goal horizon</div>
+          </div>
+        </div>
+
+        <!-- CHARTS GRID -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <div class="chart-title">Income vs Expenses</div>
+                <div class="chart-subtitle">Monthly breakdown</div>
+              </div>
+              <select class="chart-select" id="incomeExpenseView">
+                <option value="bar">Bar Chart</option>
+                <option value="line">Line Chart</option>
+              </select>
+            </div>
+            <div class="chart-container">
+              <canvas id="incomeExpenseChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <div class="chart-title">Expense Breakdown</div>
+                <div class="chart-subtitle">By category</div>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="expenseBreakdownChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI ADVISOR PANEL -->
+        <div class="ai-panel">
+          <div class="ai-header">
+            <h3>AI Financial Advisor</h3>
+            <div class="ai-badge">🤖 Powered by Claude</div>
+          </div>
+          <div class="ai-response" id="aiResponse">
+            <div class="ai-typing">
+              <div class="ai-typing-dot"></div>
+              <div class="ai-typing-dot"></div>
+              <div class="ai-typing-dot"></div>
+            </div>
+          </div>
+          <div class="ai-input-row">
+            <input type="text" id="aiInput" placeholder="Ask anything about your finances..." />
+            <button class="btn-primary" id="aiSendBtn">Ask AI →</button>
+          </div>
+        </div>
+
+        <!-- RECOMMENDATIONS -->
+        <div style="margin-bottom:12px;">
+          <h3 style="font-family:var(--font-display);">Personalized Recommendations</h3>
+          <p style="color:var(--text-2); font-size:0.85rem; margin-top:4px;">Based on your risk profile</p>
+        </div>
+        <div class="rec-grid" id="recGrid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- GOALS -->
+        <div class="goals-section">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+            <div>
+              <h3 style="font-family:var(--font-display);">Investment Goals</h3>
+              <p style="color:var(--text-2); font-size:0.85rem; margin-top:4px;">Track your financial milestones</p>
+            </div>
+          </div>
+          <div class="goals-grid" id="goalsGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+      </div><!-- end dashboardContent -->
+    </div><!-- end page-content -->
+  </main>
+</div>
+
+<!-- Firebase & Chart JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+  import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { FIREBASE_CONFIG } from '../js/firebase-config.js';
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  let userData = null;
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return window.location.href = 'auth.html';
+    
+    const docSnap = await getDoc(doc(db, 'users', user.uid));
+    if (!docSnap.exists() || !docSnap.data().profileComplete) {
+      return window.location.href = 'onboarding.html';
+    }
+
+    userData = docSnap.data();
+    initDashboard(userData);
+  });
+
+  function initDashboard(data) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('dashboardContent').style.display = 'block';
+
+    // Sidebar
+    const name = data.name || 'Student';
+    document.getElementById('sidebarName').textContent = name;
+    document.getElementById('sidebarRole').textContent = data.studentStatus || 'Student';
+    document.getElementById('sidebarAvatar').textContent = name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+
+    // Financials
+    const income = (data.income?.pocketMoney || 0) + (data.income?.partTimeJob || 0) + (data.income?.freelancing || 0) + (data.income?.other || 0);
+    const expenses = (data.expenses?.food || 0) + (data.expenses?.travel || 0) + (data.expenses?.entertainment || 0) + (data.expenses?.miscellaneous || 0);
+    const savings = income - expenses;
+    const savingsRate = income > 0 ? ((savings / income) * 100).toFixed(1) : 0;
+
+    document.getElementById('statIncome').textContent = formatCurrency(income);
+    document.getElementById('statExpenses').textContent = formatCurrency(expenses);
+    document.getElementById('statSavings').textContent = formatCurrency(savings);
+    document.getElementById('statSavingsRate').textContent = `${savingsRate}% savings rate`;
+    document.getElementById('statRisk').textContent = capitalize(data.riskAppetite || 'Low');
+    document.getElementById('statGoal').textContent = data.investmentGoal || 'Not set';
+
+    const expensesColor = expenses > income * 0.8 ? 'down' : 'up';
+    document.getElementById('statExpensesChange').className = `stat-change ${expensesColor}`;
+    document.getElementById('statExpensesChange').textContent = expenses > income * 0.8 ? '⚠️ High spending' : 'On track';
+
+    // Charts
+    buildIncomeExpenseChart(income, expenses, savings);
+    buildExpenseChart(data.expenses || {});
+
+    // Recommendations
+    buildRecommendations(data.riskAppetite || 'low');
+
+    // Goals
+    buildGoals(data.investmentGoal, savings, income);
+
+    // AI initial advice
+    generateAIAdvice(data);
+  }
+
+  function buildIncomeExpenseChart(income, expenses, savings) {
+    const ctx = document.getElementById('incomeExpenseChart').getContext('2d');
+    window._incomeChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Income', 'Expenses', 'Savings'],
+        datasets: [{
+          data: [income, expenses, savings],
+          backgroundColor: [
+            'rgba(16,185,129,0.7)',
+            'rgba(239,68,68,0.7)',
+            'rgba(99,102,241,0.7)'
+          ],
+          borderColor: ['#10b981', '#ef4444', '#6366f1'],
+          borderWidth: 2,
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: '#94a3b8', callback: v => '₹' + v.toLocaleString() }
+          },
+          x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+
+    document.getElementById('incomeExpenseView').addEventListener('change', (e) => {
+      window._incomeChart.config.type = e.target.value;
+      window._incomeChart.update();
+    });
+  }
+
+  function buildExpenseChart(expenses) {
+    const labels = Object.keys(expenses).filter(k => expenses[k] > 0).map(capitalize);
+    const data = Object.values(expenses).filter(v => v > 0);
+    if (!data.length) data.push(1), labels.push('No data');
+    const ctx = document.getElementById('expenseBreakdownChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: ['#6366f1','#22d3ee','#a78bfa','#f59e0b','#10b981','#ef4444'],
+          borderWidth: 2,
+          borderColor: 'transparent',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: { color: '#94a3b8', boxWidth: 12, font: { size: 11 } }
+          }
+        },
+        cutout: '68%'
+      }
+    });
+  }
+
+  function buildRecommendations(risk) {
+    const recs = getRecommendations(risk.toLowerCase());
+    const grid = document.getElementById('recGrid');
+    grid.innerHTML = recs.slice(0,3).map(r => `
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-tag ${r.risk.toLowerCase()}">${r.risk}</span>
+          <span class="rec-return">${r.expectedReturn}</span>
+        </div>
+        <div class="rec-name">${r.name}</div>
+        <div class="rec-desc">${r.description}</div>
+        <div class="rec-footer">
+          <span>${r.category}</span>
+          <strong>Min: ${r.minInvestment}</strong>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function getRecommendations(risk) {
+    const all = {
+      low: [
+        { name:'HDFC Liquid Fund', category:'Debt Fund', risk:'Low', expectedReturn:'6-7% p.a.', description:'Highly liquid, safe debt fund. Ideal for emergency fund and short-term parking.', minInvestment:'₹500/mo' },
+        { name:'UTI Nifty 50 Index Fund', category:'Index Fund', risk:'Low', expectedReturn:'10-12% p.a.', description:'Passively tracks Nifty 50. Low expense ratio with market-level returns.', minInvestment:'₹500/mo' },
+        { name:'SBI Magnum Gilt Fund', category:'Government Securities', risk:'Low', expectedReturn:'6-8% p.a.', description:'Government-backed securities, virtually zero credit risk.', minInvestment:'₹1000/mo' },
+      ],
+      medium: [
+        { name:'Mirae Asset Hybrid Fund', category:'Hybrid Fund', risk:'Medium', expectedReturn:'11-14% p.a.', description:'Balanced 70% equity + 30% debt. Perfect for medium-risk investors.', minInvestment:'₹1000/mo' },
+        { name:'Kotak Emerging Equity', category:'Mid Cap Fund', risk:'Medium', expectedReturn:'13-16% p.a.', description:'Invests in emerging mid-cap companies with high growth potential.', minInvestment:'₹1000/mo' },
+        { name:'Nippon India ETF Nifty', category:'ETF', risk:'Medium', expectedReturn:'10-13% p.a.', description:'Exchange traded fund tracking Nifty 50. Low cost, flexible trading.', minInvestment:'₹500' },
+      ],
+      high: [
+        { name:'Axis Small Cap Fund', category:'Small Cap', risk:'High', expectedReturn:'16-22% p.a.', description:'High-risk, high-reward small cap fund. Best for 5+ year horizon.', minInvestment:'₹1000/mo' },
+        { name:'Tata Digital India Fund', category:'Sector Fund', risk:'High', expectedReturn:'15-25% p.a.', description:'Concentrated bet on India\'s digital economy. Volatile but high potential.', minInvestment:'₹1000/mo' },
+        { name:'Individual Stocks (Nifty 50)', category:'Direct Equity', risk:'High', expectedReturn:'Market linked', description:'Direct equity in Nifty 50 bluechips via demat account. Requires research.', minInvestment:'₹500+' },
+      ]
+    };
+    return all[risk] || all.low;
+  }
+
+  function buildGoals(goal, savings, income) {
+    const goals = [
+      { icon:'🎓', name:'Emergency Fund', target: income * 3, current: savings * 0.4, desc:'3 months expenses' },
+      { icon:'💻', name: goal === 'Short-term (1-3 yrs)' ? 'Short-term Goal' : 'Laptop/Gadgets', target: 50000, current: savings * 0.3, desc:'₹50,000 target' },
+      { icon:'🚀', name: goal === 'Long-term (5+ yrs)' ? 'Long-term Wealth' : 'Investment Corpus', target: 500000, current: savings * 0.3, desc:'₹5,00,000 target' },
+    ];
+    const grid = document.getElementById('goalsGrid');
+    grid.innerHTML = goals.map(g => {
+      const pct = Math.min((g.current / g.target) * 100, 100).toFixed(0);
+      return `
+        <div class="goal-card">
+          <div class="goal-top">
+            <span class="goal-icon">${g.icon}</span>
+            <span class="goal-pct">${pct}%</span>
+          </div>
+          <div class="goal-name">${g.name}</div>
+          <div class="goal-amount">${formatCurrency(g.current)} / ${formatCurrency(g.target)}</div>
+          <div class="goal-bar"><div class="goal-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function generateAIAdvice(data) {
+    const income = (data.income?.pocketMoney || 0) + (data.income?.partTimeJob || 0) + (data.income?.freelancing || 0);
+    const expenses = (data.expenses?.food || 0) + (data.expenses?.travel || 0) + (data.expenses?.entertainment || 0) + (data.expenses?.miscellaneous || 0);
+    const savings = income - expenses;
+    const savingsRate = income > 0 ? ((savings / income) * 100).toFixed(1) : 0;
+
+    const prompt = `You are a friendly financial advisor for Indian students. Analyze this student's financial data and give personalized, actionable advice in 3-4 sentences. Be encouraging and specific.
+
+Student Data:
+- Monthly Income: ₹${income}
+- Monthly Expenses: ₹${expenses}  
+- Monthly Savings: ₹${savings} (${savingsRate}%)
+- Risk Appetite: ${data.riskAppetite}
+- Investment Goal: ${data.investmentGoal}
+- Student Status: ${data.studentStatus}
+
+Give advice on: savings habits, best investment options for their risk level, and one specific action they can take this month.`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const result = await response.json();
+      const advice = result.content?.[0]?.text || getDefaultAdvice(data.riskAppetite, savingsRate);
+      document.getElementById('aiResponse').innerHTML = `<p style="line-height:1.7">${advice}</p>`;
+    } catch (e) {
+      document.getElementById('aiResponse').innerHTML = `<p style="line-height:1.7">${getDefaultAdvice(data.riskAppetite, savingsRate)}</p>`;
+    }
+
+    // AI Chat
+    document.getElementById('aiSendBtn').addEventListener('click', sendAIMessage);
+    document.getElementById('aiInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendAIMessage();
+    });
+  }
+
+  async function sendAIMessage() {
+    const input = document.getElementById('aiInput');
+    const question = input.value.trim();
+    if (!question) return;
+    input.value = '';
+    document.getElementById('aiResponse').innerHTML = `<div class="ai-typing"><div class="ai-typing-dot"></div><div class="ai-typing-dot"></div><div class="ai-typing-dot"></div></div>`;
+    
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: `You are VestSmart's AI financial advisor for Indian students. Answer this question concisely and helpfully: ${question}`
+          }]
+        })
+      });
+      const result = await response.json();
+      const answer = result.content?.[0]?.text || 'I could not get a response. Please try again.';
+      document.getElementById('aiResponse').innerHTML = `<p style="line-height:1.7">${answer}</p>`;
+    } catch (e) {
+      document.getElementById('aiResponse').innerHTML = `<p style="color:var(--danger)">Error: Could not connect to AI. Please try again later.</p>`;
+    }
+  }
+
+  function getDefaultAdvice(risk, savingsRate) {
+    if (savingsRate < 20) return `Your savings rate of ${savingsRate}% is below the recommended 20%. Try cutting entertainment or travel expenses by 10%. Start a ₹500/month SIP in a liquid fund — small steps compound into big wealth over time!`;
+    if (risk === 'low') return `Great job saving! With a ${savingsRate}% savings rate, consider allocating 60% to index funds (UTI Nifty 50) and 40% to debt funds. This balanced approach gives you safety with decent 8-10% returns. Set up an auto-SIP to stay consistent.`;
+    if (risk === 'high') return `Impressive savings discipline! With high risk tolerance, consider 70% in small/mid-cap funds and 30% in index ETFs. At your stage, time is your greatest asset — start a ₹1000/month SIP immediately for maximum compounding benefits.`;
+    return `Your ${savingsRate}% savings rate is solid! Consider a hybrid fund approach: 50% in Nifty Index funds, 30% in hybrid equity funds, and 20% in liquid funds for emergencies. This diversification protects and grows your wealth simultaneously.`;
+  }
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = 'auth.html';
+  });
+
+  function formatCurrency(n) { return '₹' + Math.abs(n).toLocaleString('en-IN'); }
+  function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+  // Mobile sidebar
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+</script>
+<script src="../js/main.js"></script>
+<script>
+function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(20);
+  doc.text('VestSmart — Financial Report', 20, 30);
+  doc.setFontSize(12);
+  doc.text(`Generated: ${new Date().toLocaleDateString('en-IN')}`, 20, 45);
+  const income = document.getElementById('statIncome').textContent;
+  const expenses = document.getElementById('statExpenses').textContent;
+  const savings = document.getElementById('statSavings').textContent;
+  const risk = document.getElementById('statRisk').textContent;
+  doc.text(`Monthly Income: ${income}`, 20, 65);
+  doc.text(`Monthly Expenses: ${expenses}`, 20, 78);
+  doc.text(`Monthly Savings: ${savings}`, 20, 91);
+  doc.text(`Risk Profile: ${risk}`, 20, 104);
+  doc.text('For educational purposes only. Not SEBI registered.', 20, 280);
+  doc.save('VestSmart-Report.pdf');
+}
+</script>
+</body>
+</html>
