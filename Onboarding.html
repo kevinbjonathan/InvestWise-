@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setup Profile — VestSmart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    body { min-height:100vh; background: var(--bg); }
+    .onboarding-wrapper {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .onboarding-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-top: 32px;
+    }
+    .onboarding-logo { font-family:var(--font-display); font-size:1.5rem; font-weight:800; margin-bottom:32px; display:block; }
+    .onboarding-logo span { color:var(--primary-light); }
+    .progress-bar-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 100px;
+      transition: width 0.4s ease;
+    }
+    .step-indicator { font-size:0.82rem; color:var(--text-2); }
+    .onboarding-step { display:none; }
+    .onboarding-step.active { display:block; }
+    .step-title { font-family:var(--font-display); font-size:1.6rem; font-weight:700; margin-bottom:8px; }
+    .step-desc { color:var(--text-2); margin-bottom:32px; }
+    .form-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-grid .full { grid-column: 1 / -1; }
+    .income-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .option-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .option-card {
+      padding: 16px;
+      background: var(--surface-2);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    .option-card:hover { border-color: var(--primary); }
+    .option-card.selected { border-color: var(--primary); background: rgba(99,102,241,0.12); color: var(--primary-light); }
+    .option-card .option-icon { font-size:1.6rem; margin-bottom:8px; }
+    .option-card strong { display:block; font-size:0.9rem; margin-bottom:4px; }
+    .option-card span { font-size:0.75rem; color:var(--text-2); }
+    .goal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .step-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+    }
+    #alertBox { margin-bottom:20px; display:none; }
+    @media(max-width:640px) {
+      .form-grid { grid-template-columns:1fr; }
+      .option-grid, .goal-grid { grid-template-columns:1fr 1fr; }
+      .income-row { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="onboarding-wrapper">
+  <a href="../index.html" class="onboarding-logo">Vest<span>Smart</span></a>
+
+  <div class="onboarding-header">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:20%"></div>
+    </div>
+    <div class="step-indicator" id="stepIndicator">Step 1 of 5 — Personal Info</div>
+  </div>
+
+  <div id="alertBox"></div>
+
+  <!-- STEP 1: PERSONAL INFO -->
+  <div class="onboarding-step active" id="step1">
+    <div class="step-title">👤 Tell us about yourself</div>
+    <div class="step-desc">Basic information to personalize your experience</div>
+    <div class="form-section">
+      <div class="form-section-title">📋 Personal Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="fullName" placeholder="Your full name"/>
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" id="age" placeholder="e.g. 20" min="15" max="35"/>
+        </div>
+        <div class="form-group full">
+          <label>Student Status</label>
+          <select id="studentStatus">
+            <option value="">Select your level</option>
+            <option>Undergraduate (UG)</option>
+            <option>Postgraduate (PG)</option>
+            <option>Ph.D. Student</option>
+            <option>Diploma</option>
+            <option>Professional Course</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>City / College</label>
+          <input type="text" id="city" placeholder="e.g. Bengaluru / IIT Delhi"/>
+        </div>
+      </div>
+    </div>
+    <div class="step-actions">
+      <span></span>
+      <button class="btn-primary" onclick="nextStep(1)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: INCOME -->
+  <div class="onboarding-step" id="step2">
+    <div class="step-title">💰 Income Sources</div>
+    <div class="step-desc">Tell us about your monthly income. Include all sources (leave blank if not applicable).</div>
+    <div class="form-section">
+      <div class="form-section-title">💵 Monthly Income (₹)</div>
+      <div class="income-row">
+        <div class="form-group">
+          <label>Pocket Money / Allowance</label>
+          <input type="number" id="pocketMoney" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Part-Time Job</label>
+          <input type="number" id="partTimeJob" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Freelancing / Gig Work</label>
+          <input type="number" id="freelancing" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Scholarship / Stipend</label>
+          <input type="number" id="otherIncome" placeholder="0" min="0"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:16px; padding:16px; background:var(--surface-2); border-radius:var(--radius); border:1px solid var(--border);">
+        <div style="font-size:0.8rem; color:var(--text-3); margin-bottom:4px;">TOTAL MONTHLY INCOME</div>
+        <div id="totalIncomeDisplay" style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; color:var(--success)">₹0</div>
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn-ghost" onclick="prevStep(2)">← Back</button>
+      <button class="btn-primary" onclick="nextStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: EXPENSES -->
+  <div class="onboarding-step" id="step3">
+    <div class="step-title">💸 Monthly Expenditure</div>
+    <div class="step-desc">Be honest — accurate data gives better recommendations!</div>
+    <div class="form-section">
+      <div class="form-section-title">🛒 Expense Categories (₹/month)</div>
+      <div class="income-row">
+        <div class="form-group">
+          <label>🍔 Food & Dining</label>
+          <input type="number" id="expFood" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>🚌 Travel & Transport</label>
+          <input type="number" id="expTravel" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>🎬 Entertainment</label>
+          <input type="number" id="expEntertainment" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>📚 Books & Education</label>
+          <input type="number" id="expEducation" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>👔 Clothing</label>
+          <input type="number" id="expClothing" placeholder="0" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>🔧 Miscellaneous</label>
+          <input type="number" id="expMisc" placeholder="0" min="0"/>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;">
+        <div style="padding:16px; background:var(--surface-2); border-radius:var(--radius); border:1px solid var(--border);">
+          <div style="font-size:0.8rem; color:var(--text-3); margin-bottom:4px;">TOTAL EXPENSES</div>
+          <div id="totalExpDisplay" style="font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--danger)">₹0</div>
+        </div>
+        <div style="padding:16px; background:var(--surface-2); border-radius:var(--radius); border:1px solid var(--border);">
+          <div style="font-size:0.8rem; color:var(--text-3); margin-bottom:4px;">MONTHLY SAVINGS</div>
+          <div id="totalSavingsDisplay" style="font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--success)">₹0</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn-ghost" onclick="prevStep(3)">← Back</button>
+      <button class="btn-primary" onclick="nextStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: RISK APPETITE -->
+  <div class="onboarding-step" id="step4">
+    <div class="step-title">⚖️ Risk Appetite</div>
+    <div class="step-desc">How comfortable are you with investment risk? This shapes your recommendations.</div>
+    <div class="form-section">
+      <div class="form-section-title">🛡️ Select your Risk Level</div>
+      <div class="option-grid">
+        <div class="option-card" onclick="selectOption('risk','low',this)">
+          <div class="option-icon">🛡️</div>
+          <strong>Low Risk</strong>
+          <span>Stable returns, capital protection. Best for conservative investors.</span>
+        </div>
+        <div class="option-card" onclick="selectOption('risk','medium',this)">
+          <div class="option-icon">⚖️</div>
+          <strong>Medium Risk</strong>
+          <span>Balanced growth and stability. Can tolerate moderate fluctuations.</span>
+        </div>
+        <div class="option-card" onclick="selectOption('risk','high',this)">
+          <div class="option-icon">🚀</div>
+          <strong>High Risk</strong>
+          <span>Maximum growth potential. Comfortable with market volatility.</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn-ghost" onclick="prevStep(4)">← Back</button>
+      <button class="btn-primary" onclick="nextStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: INVESTMENT GOALS -->
+  <div class="onboarding-step" id="step5">
+    <div class="step-title">🎯 Investment Goals</div>
+    <div class="step-desc">What's your primary investment timeline? This determines the type of investments we recommend.</div>
+    <div class="form-section">
+      <div class="form-section-title">⏱️ Investment Horizon</div>
+      <div class="goal-grid">
+        <div class="option-card" onclick="selectOption('goal','Short-term (1-3 yrs)',this)">
+          <div class="option-icon">⚡</div>
+          <strong>Short-term</strong>
+          <span>1 – 3 Years<br/>Liquid funds, FDs</span>
+        </div>
+        <div class="option-card" onclick="selectOption('goal','Mid-term (3-5 yrs)',this)">
+          <div class="option-icon">📅</div>
+          <strong>Mid-term</strong>
+          <span>3 – 5 Years<br/>Hybrid, balanced funds</span>
+        </div>
+        <div class="option-card" onclick="selectOption('goal','Long-term (5+ yrs)',this)">
+          <div class="option-icon">🏆</div>
+          <strong>Long-term</strong>
+          <span>5+ Years<br/>Equity, index funds</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">📝 Additional Details</div>
+      <div class="form-group">
+        <label>What are you saving for? (Optional)</label>
+        <input type="text" id="savingPurpose" placeholder="e.g. MBA fees, laptop, startup fund..."/>
+      </div>
+      <div class="form-group" style="margin-top:16px;">
+        <label>Target Amount (₹)</label>
+        <input type="number" id="targetAmount" placeholder="e.g. 100000"/>
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn-ghost" onclick="prevStep(5)">← Back</button>
+      <button class="btn-primary" id="submitBtn" onclick="submitProfile()">
+        <span id="submitBtnText">Complete Setup 🎉</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+  import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { FIREBASE_CONFIG } from '../js/firebase-config.js';
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let currentUser = null;
+  let selections = { risk: null, goal: null };
+  let currentStep = 1;
+  const totalSteps = 5;
+
+  window.selections = selections;
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return window.location.href = 'auth.html';
+    currentUser = user;
+    const docSnap = await getDoc(doc(db, 'users', user.uid));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data.name) document.getElementById('fullName').value = data.name;
+      if (data.profileComplete) window.location.href = 'dashboard.html';
+    }
+  });
+
+  window.selectOption = (type, value, el) => {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selections[type] = value;
+  };
+
+  window.nextStep = (step) => {
+    if (!validateStep(step)) return;
+    if (step < totalSteps) {
+      document.getElementById(`step${step}`).classList.remove('active');
+      document.getElementById(`step${step + 1}`).classList.add('active');
+      currentStep = step + 1;
+      updateProgress();
+    }
+  };
+
+  window.prevStep = (step) => {
+    if (step > 1) {
+      document.getElementById(`step${step}`).classList.remove('active');
+      document.getElementById(`step${step - 1}`).classList.add('active');
+      currentStep = step - 1;
+      updateProgress();
+    }
+  };
+
+  function updateProgress() {
+    const pct = (currentStep / totalSteps) * 100;
+    document.getElementById('progressFill').style.width = `${pct}%`;
+    const titles = ['', 'Personal Info', 'Income Sources', 'Expenditure', 'Risk Appetite', 'Investment Goals'];
+    document.getElementById('stepIndicator').textContent = `Step ${currentStep} of ${totalSteps} — ${titles[currentStep]}`;
+  }
+
+  function validateStep(step) {
+    clearAlert();
+    if (step === 1) {
+      if (!document.getElementById('fullName').value.trim()) return showAlert('Please enter your full name.');
+      if (!document.getElementById('age').value) return showAlert('Please enter your age.');
+      if (!document.getElementById('studentStatus').value) return showAlert('Please select your student status.');
+      return true;
+    }
+    if (step === 2) {
+      const total = getIncomeTotal();
+      if (total <= 0) return showAlert('Please enter at least one income source.');
+      return true;
+    }
+    if (step === 3) return true;
+    if (step === 4) {
+      if (!selections.risk) return showAlert('Please select your risk appetite.');
+      return true;
+    }
+    return true;
+  }
+
+  function getIncomeTotal() {
+    return ['pocketMoney','partTimeJob','freelancing','otherIncome'].reduce((s,id) => s + (parseFloat(document.getElementById(id).value) || 0), 0);
+  }
+  function getExpenseTotal() {
+    return ['expFood','expTravel','expEntertainment','expEducation','expClothing','expMisc'].reduce((s,id) => s + (parseFloat(document.getElementById(id).value) || 0), 0);
+  }
+
+  // Live totals
+  ['pocketMoney','partTimeJob','freelancing','otherIncome'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      document.getElementById('totalIncomeDisplay').textContent = '₹' + getIncomeTotal().toLocaleString('en-IN');
+    });
+  });
+  ['expFood','expTravel','expEntertainment','expEducation','expClothing','expMisc'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      const exp = getExpenseTotal();
+      const inc = getIncomeTotal();
+      const sav = inc - exp;
+      document.getElementById('totalExpDisplay').textContent = '₹' + exp.toLocaleString('en-IN');
+      document.getElementById('totalSavingsDisplay').textContent = '₹' + Math.max(sav,0).toLocaleString('en-IN');
+      document.getElementById('totalSavingsDisplay').style.color = sav >= 0 ? 'var(--success)' : 'var(--danger)';
+    });
+  });
+
+  window.submitProfile = async () => {
+    if (!selections.goal) return showAlert('Please select your investment goal.');
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtnText').innerHTML = '<span class="spinner"></span>';
+
+    const profileData = {
+      name: document.getElementById('fullName').value.trim(),
+      age: parseInt(document.getElementById('age').value),
+      studentStatus: document.getElementById('studentStatus').value,
+      city: document.getElementById('city').value.trim(),
+      income: {
+        pocketMoney: parseFloat(document.getElementById('pocketMoney').value) || 0,
+        partTimeJob: parseFloat(document.getElementById('partTimeJob').value) || 0,
+        freelancing: parseFloat(document.getElementById('freelancing').value) || 0,
+        other: parseFloat(document.getElementById('otherIncome').value) || 0,
+      },
+      expenses: {
+        food: parseFloat(document.getElementById('expFood').value) || 0,
+        travel: parseFloat(document.getElementById('expTravel').value) || 0,
+        entertainment: parseFloat(document.getElementById('expEntertainment').value) || 0,
+        education: parseFloat(document.getElementById('expEducation').value) || 0,
+        clothing: parseFloat(document.getElementById('expClothing').value) || 0,
+        miscellaneous: parseFloat(document.getElementById('expMisc').value) || 0,
+      },
+      riskAppetite: selections.risk,
+      investmentGoal: selections.goal,
+      savingPurpose: document.getElementById('savingPurpose').value.trim(),
+      targetAmount: parseFloat(document.getElementById('targetAmount').value) || 0,
+      profileComplete: true,
+      updatedAt: new Date().toISOString(),
+    };
+
+    try {
+      await updateDoc(doc(db, 'users', currentUser.uid), profileData);
+      window.location.href = 'dashboard.html';
+    } catch (e) {
+      showAlert('Error saving profile. Please try again.');
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtnText').textContent = 'Complete Setup 🎉';
+    }
+  };
+
+  function showAlert(msg) {
+    const el = document.getElementById('alertBox');
+    el.innerHTML = `<div class="alert alert-error">${msg}</div>`;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior:'smooth', block:'center' });
+    return false;
+  }
+  function clearAlert() {
+    document.getElementById('alertBox').style.display = 'none';
+  }
+  window.clearAlert = clearAlert;
+</script>
+<script src="../js/main.js"></script>
+</body>
+</html>
