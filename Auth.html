@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VestSmart — Login / Signup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+<div class="auth-page">
+
+  <!-- LEFT PANEL -->
+  <div class="auth-left">
+    <a href="../index.html" class="auth-left-logo">Vest<span>Smart</span></a>
+    <div class="auth-left-content">
+      <h2>Your Student<br/><span class="gradient-text">Investment Journey</span><br/>Starts Here</h2>
+      <p>Join thousands of students building wealth from their college years. Smart investing doesn't need a big salary — it needs smart tools.</p>
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon">📊</div>
+          <span>Track income, expenses & savings automatically</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🤖</div>
+          <span>AI-powered investment recommendations</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🎯</div>
+          <span>Set goals and track your progress in real-time</span>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🔒</div>
+          <span>Bank-grade security with Firebase Auth</span>
+        </div>
+      </div>
+    </div>
+    <div class="auth-left-footer">
+      © 2025 VestSmart · For educational purposes only · Not SEBI registered
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="auth-right">
+    <div class="auth-box">
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab">Login</button>
+        <button class="auth-tab" id="signupTab">Sign Up</button>
+      </div>
+
+      <!-- ALERTS -->
+      <div id="authAlert" style="display:none; margin-bottom:16px;"></div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form active" id="loginForm">
+        <div>
+          <h2>Welcome back</h2>
+          <p>Sign in to your VestSmart account</p>
+        </div>
+
+        <button class="social-btn" id="googleLoginBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-divider">or</div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="you@college.edu" autocomplete="email"/>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-field">
+            <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password"/>
+            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">👁️</button>
+          </div>
+          <div class="forgot-link" id="forgotPasswordLink">Forgot password?</div>
+        </div>
+
+        <button class="btn-primary auth-submit" id="loginBtn">
+          <span id="loginBtnText">Sign In</span>
+        </button>
+
+        <p style="text-align:center; font-size:0.85rem; color:var(--text-2)">
+          Don't have an account? <span class="forgot-link" id="switchToSignup">Sign up free</span>
+        </p>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div class="auth-form" id="signupForm">
+        <div>
+          <h2>Create account</h2>
+          <p>Start your investment journey today</p>
+        </div>
+
+        <button class="social-btn" id="googleSignupBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-divider">or</div>
+
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signupName" placeholder="Your full name" autocomplete="name"/>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="signupEmail" placeholder="you@college.edu" autocomplete="email"/>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-field">
+            <input type="password" id="signupPassword" placeholder="Create a strong password" autocomplete="new-password"/>
+            <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)">👁️</button>
+          </div>
+          <div class="password-strength" id="strengthBars">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <div class="password-strength-text" id="strengthText">Enter a password</div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="password-field">
+            <input type="password" id="signupConfirmPassword" placeholder="Confirm your password"/>
+            <button type="button" class="password-toggle" onclick="togglePassword('signupConfirmPassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <button class="btn-primary auth-submit" id="signupBtn">
+          <span id="signupBtnText">Create Account</span>
+        </button>
+
+        <p style="text-align:center; font-size:0.85rem; color:var(--text-2)">
+          Already have an account? <span class="forgot-link" id="switchToLogin">Sign in</span>
+        </p>
+      </div>
+
+      <!-- RESET FORM -->
+      <div id="resetForm">
+        <div>
+          <h2>Reset Password</h2>
+          <p style="color:var(--text-2); font-size:0.9rem;">Enter your email and we'll send a reset link.</p>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="resetEmail" placeholder="you@college.edu"/>
+        </div>
+        <button class="btn-primary auth-submit" id="resetBtn">Send Reset Email</button>
+        <p style="text-align:center; font-size:0.85rem; color:var(--text-2)">
+          <span class="forgot-link" id="backToLogin">← Back to login</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup, updateProfile } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+  import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { FIREBASE_CONFIG } from '../js/firebase-config.js';
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // Tab switching
+  const loginTab = document.getElementById('loginTab');
+  const signupTab = document.getElementById('signupTab');
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+  const resetForm = document.getElementById('resetForm');
+  const authTabs = document.querySelector('.auth-tabs');
+
+  function showLogin() {
+    loginTab.classList.add('active');
+    signupTab.classList.remove('active');
+    loginForm.classList.add('active');
+    signupForm.classList.remove('active');
+    resetForm.classList.remove('active');
+    authTabs.style.display = 'flex';
+    clearAlert();
+  }
+  function showSignup() {
+    signupTab.classList.add('active');
+    loginTab.classList.remove('active');
+    signupForm.classList.add('active');
+    loginForm.classList.remove('active');
+    resetForm.classList.remove('active');
+    authTabs.style.display = 'flex';
+    clearAlert();
+  }
+  function showReset() {
+    loginForm.classList.remove('active');
+    signupForm.classList.remove('active');
+    resetForm.classList.add('active');
+    authTabs.style.display = 'none';
+    clearAlert();
+  }
+
+  loginTab.addEventListener('click', showLogin);
+  signupTab.addEventListener('click', showSignup);
+  document.getElementById('switchToSignup').addEventListener('click', showSignup);
+  document.getElementById('switchToLogin').addEventListener('click', showLogin);
+  document.getElementById('forgotPasswordLink').addEventListener('click', showReset);
+  document.getElementById('backToLogin').addEventListener('click', showLogin);
+
+  // Check URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('mode') === 'signup') showSignup();
+
+  function showAlert(msg, type = 'error') {
+    const el = document.getElementById('authAlert');
+    el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+    el.style.display = 'block';
+  }
+  function clearAlert() {
+    const el = document.getElementById('authAlert');
+    el.style.display = 'none';
+    el.innerHTML = '';
+  }
+
+  function setLoading(btnId, textId, loading, text) {
+    const btn = document.getElementById(btnId);
+    const textEl = document.getElementById(textId);
+    if (loading) {
+      btn.disabled = true;
+      textEl.innerHTML = '<span class="spinner"></span>';
+    } else {
+      btn.disabled = false;
+      textEl.textContent = text;
+    }
+  }
+
+  async function redirectAfterLogin(user) {
+    const docRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && docSnap.data().profileComplete) {
+      window.location.href = 'dashboard.html';
+    } else {
+      window.location.href = 'onboarding.html';
+    }
+  }
+
+  // LOGIN
+  document.getElementById('loginBtn').addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if (!email || !password) return showAlert('Please fill in all fields.');
+    clearAlert();
+    setLoading('loginBtn', 'loginBtnText', true);
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      await redirectAfterLogin(user);
+    } catch (e) {
+      showAlert(getAuthError(e.code));
+    } finally {
+      setLoading('loginBtn', 'loginBtnText', false, 'Sign In');
+    }
+  });
+
+  // SIGNUP
+  document.getElementById('signupBtn').addEventListener('click', async () => {
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const confirm = document.getElementById('signupConfirmPassword').value;
+    if (!name || !email || !password || !confirm) return showAlert('Please fill in all fields.');
+    if (password !== confirm) return showAlert('Passwords do not match.');
+    if (password.length < 8) return showAlert('Password must be at least 8 characters.');
+    clearAlert();
+    setLoading('signupBtn', 'signupBtnText', true);
+    try {
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(user, { displayName: name });
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        name,
+        email,
+        createdAt: new Date().toISOString(),
+        profileComplete: false
+      });
+      window.location.href = 'onboarding.html';
+    } catch (e) {
+      showAlert(getAuthError(e.code));
+    } finally {
+      setLoading('signupBtn', 'signupBtnText', false, 'Create Account');
+    }
+  });
+
+  // GOOGLE AUTH
+  async function googleAuth() {
+    try {
+      const { user } = await signInWithPopup(auth, googleProvider);
+      const docRef = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        await setDoc(docRef, {
+          uid: user.uid,
+          name: user.displayName || '',
+          email: user.email,
+          createdAt: new Date().toISOString(),
+          profileComplete: false
+        });
+      }
+      await redirectAfterLogin(user);
+    } catch (e) {
+      showAlert('Google sign-in failed. Please try again.');
+    }
+  }
+  document.getElementById('googleLoginBtn').addEventListener('click', googleAuth);
+  document.getElementById('googleSignupBtn').addEventListener('click', googleAuth);
+
+  // PASSWORD RESET
+  document.getElementById('resetBtn').addEventListener('click', async () => {
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email) return showAlert('Please enter your email.');
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showAlert('Reset email sent! Check your inbox.', 'success');
+    } catch (e) {
+      showAlert(getAuthError(e.code));
+    }
+  });
+
+  function getAuthError(code) {
+    const errors = {
+      'auth/user-not-found': 'No account found with this email.',
+      'auth/wrong-password': 'Incorrect password. Try again.',
+      'auth/email-already-in-use': 'This email is already registered.',
+      'auth/weak-password': 'Password is too weak.',
+      'auth/invalid-email': 'Invalid email address.',
+      'auth/too-many-requests': 'Too many attempts. Please try later.',
+    };
+    return errors[code] || 'An error occurred. Please try again.';
+  }
+
+  // PASSWORD STRENGTH
+  const pwInput = document.getElementById('signupPassword');
+  pwInput.addEventListener('input', () => {
+    const val = pwInput.value;
+    const bars = document.querySelectorAll('.strength-bar');
+    const text = document.getElementById('strengthText');
+    bars.forEach(b => b.className = 'strength-bar');
+    if (!val) { text.textContent = 'Enter a password'; return; }
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const cls = score <= 1 ? 'active-weak' : score <= 3 ? 'active-fair' : 'active-strong';
+    const label = score <= 1 ? 'Weak' : score <= 3 ? 'Fair' : 'Strong';
+    const textColor = score <= 1 ? 'var(--danger)' : score <= 3 ? 'var(--warning)' : 'var(--success)';
+    for (let i = 0; i < score; i++) bars[i].classList.add(cls);
+    text.textContent = label;
+    text.style.color = textColor;
+  });
+</script>
+<script src="../js/main.js"></script>
+<script>
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁️'; }
+}
+</script>
+</body>
+</html>
