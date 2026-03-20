@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VestSmart — Student Investment Advisor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Vest<span>Smart</span></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it Works</a>
+      <a href="pages/reviews.html">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="pages/auth.html" class="btn-ghost">Login</a>
+      <a href="pages/auth.html?mode=signup" class="btn-primary">Get Started</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Smart Financial Planning for Students
+    </div>
+    <h1 class="hero-title">
+      Invest Smarter,<br/>
+      <span class="gradient-text">Start Earlier</span>
+    </h1>
+    <p class="hero-subtitle">
+      VestSmart analyzes your student finances and creates personalized investment strategies. From pocket money to your first portfolio — we guide every step.
+    </p>
+    <div class="hero-cta">
+      <a href="pages/auth.html?mode=signup" class="btn-primary btn-lg">
+        Start Free Today
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#how-it-works" class="btn-ghost btn-lg">See How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><strong>10K+</strong><span>Students</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><strong>₹2Cr+</strong><span>Invested</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><strong>4.9★</strong><span>Rating</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="dashboard-preview">
+      <div class="preview-header">
+        <div class="preview-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="preview-title">Dashboard</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-card">
+          <div class="preview-label">Monthly Savings</div>
+          <div class="preview-value">₹4,200</div>
+          <div class="preview-bar">
+            <div class="preview-bar-fill" style="width:68%"></div>
+          </div>
+        </div>
+        <div class="preview-card">
+          <div class="preview-label">Portfolio Value</div>
+          <div class="preview-value">₹18,540</div>
+          <div class="preview-change positive">+12.4% ↑</div>
+        </div>
+        <div class="preview-chart-mini">
+          <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,40 20,32 40,35 60,20 80,22 100,12 120,8" fill="none" stroke="url(#chartGrad)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="chartGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="preview-pills">
+          <span class="pill pill-blue">SIP Active</span>
+          <span class="pill pill-green">Goal: 78%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">WHAT WE OFFER</div>
+      <h2>Everything a student investor needs</h2>
+      <p>Built specifically for students with limited income but unlimited potential</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Smart Dashboard</h3>
+        <p>Visualize income vs expenses, track savings rate, and monitor your investment portfolio in real-time.</p>
+      </div>
+      <div class="feature-card feature-card--highlight">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Recommendations</h3>
+        <p>Claude AI analyzes your financial data and suggests personalized investment strategies based on your risk appetite.</p>
+        <span class="feature-badge">Powered by Claude</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧮</div>
+        <h3>Financial Calculators</h3>
+        <p>SIP, Lump Sum, EMI, and Compound Interest calculators with dynamic charts to plan your financial future.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Risk-Aware Investing</h3>
+        <p>From safe debt funds to growth ETFs — get investment picks perfectly matched to your risk tolerance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Goal Tracking</h3>
+        <p>Set short, mid, and long-term goals. Track progress with visual indicators and milestone alerts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3>PDF Reports</h3>
+        <p>Export your complete financial analysis and investment plan as a professional PDF report.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">THE PROCESS</div>
+      <h2>From signup to smart investing in minutes</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Create Your Profile</h3>
+          <p>Sign up and fill in your student financial profile — income sources, spending habits, and savings.</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Set Your Risk Level</h3>
+          <p>Tell us your risk appetite and investment timeline. Low, medium, or high — we adapt to you.</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Get Recommendations</h3>
+          <p>AI analyzes your data and suggests the best mutual funds, ETFs, and investment strategies for you.</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Track & Grow</h3>
+          <p>Monitor your portfolio, run calculations, and refine your strategy as you grow financially.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS PREVIEW -->
+<section class="testimonials-preview">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">REVIEWS</div>
+      <h2>What students say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"VestSmart helped me start my first SIP with just ₹500/month. The AI recommendations are spot on for a student like me!"</p>
+        <div class="testimonial-author">
+          <div class="avatar">AR</div>
+          <div>
+            <strong>Aryan Rajput</strong>
+            <span>B.Tech, IIT Delhi</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card testimonial-card--featured">
+        <div class="stars">★★★★★</div>
+        <p>"Finally a financial app that understands I'm a student! The calculators and dashboard made budgeting actually fun."</p>
+        <div class="testimonial-author">
+          <div class="avatar">PM</div>
+          <div>
+            <strong>Priya Mehta</strong>
+            <span>MBA, NMIMS</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"The risk-based fund suggestions are brilliant. I went from zero knowledge to investing in hybrid funds within a week."</p>
+        <div class="testimonial-author">
+          <div class="avatar">SK</div>
+          <div>
+            <strong>Sahil Khan</strong>
+            <span>B.Com, DU</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="centered-cta">
+      <a href="pages/reviews.html" class="btn-ghost">Read All Reviews</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Ready to start your investment journey?</h2>
+      <p>Join 10,000+ students who are already building wealth with VestSmart.</p>
+      <a href="pages/auth.html?mode=signup" class="btn-primary btn-lg">Create Free Account</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">CONTACT</div>
+      <h2>Get in touch</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="contact-icon">📧</span>
+          <div>
+            <strong>Email</strong>
+            <span>hello@vestsmart.in</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">💬</span>
+          <div>
+            <strong>Support</strong>
+            <span>Available Mon–Fri, 9am–6pm IST</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🏢</span>
+          <div>
+            <strong>Location</strong>
+            <span>Bengaluru, Karnataka, India</span>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Email Address" required />
+        </div>
+        <input type="text" placeholder="Subject" />
+        <textarea placeholder="Your message..." rows="4"></textarea>
+        <button type="submit" class="btn-primary">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Vest<span>Smart</span></a>
+        <p>Empowering students to make smart financial decisions from day one.</p>
+      </div>
+      <div class="footer-links">
+        <strong>Platform</strong>
+        <a href="pages/dashboard.html">Dashboard</a>
+        <a href="pages/calculators.html">Calculators</a>
+        <a href="pages/recommendations.html">Recommendations</a>
+        <a href="pages/reviews.html">Reviews</a>
+      </div>
+      <div class="footer-links">
+        <strong>Account</strong>
+        <a href="pages/auth.html">Login</a>
+        <a href="pages/auth.html?mode=signup">Sign Up</a>
+        <a href="pages/profile.html">Profile</a>
+      </div>
+      <div class="footer-links">
+        <strong>Legal</strong>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 VestSmart. For educational purposes only. Not SEBI registered.</span>
+      <div class="theme-toggle" id="themeToggle">
+        <span>🌙</span>
+        <div class="toggle-switch">
+          <div class="toggle-thumb"></div>
+        </div>
+        <span>☀️</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>
